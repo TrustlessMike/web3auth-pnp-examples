@@ -1,5 +1,6 @@
 import Foundation
 import Web3Auth
+import Web3AuthCore
 
 class Web3AuthHelper {
     static let shared = Web3AuthHelper()
@@ -11,12 +12,15 @@ class Web3AuthHelper {
     
     private func setupWeb3Auth() {
         let clientId = "YOUR_CLIENT_ID" // Replace with your Web3Auth client ID
+        
         let chainConfig = ChainConfig(
-            chainNamespace: "solana",
+            chainNamespace: .solana,
+            decimals: 9,
+            blockExplorerUrl: "https://explorer.solana.com",
             chainId: "mainnet-beta",
-            rpcTarget: "https://api.mainnet-beta.solana.com",
             displayName: "Solana Mainnet",
-            blockExplorer: "https://explorer.solana.com",
+            logo: "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/So11111111111111111111111111111111111111112/logo.png",
+            rpcTarget: "https://api.mainnet-beta.solana.com",
             ticker: "SOL",
             tickerName: "Solana"
         )
@@ -34,7 +38,8 @@ class Web3AuthHelper {
             throw Web3AuthError.notInitialized
         }
         
-        return try await web3Auth.login()
+        let state = try await web3Auth.login()
+        return state.userInfo
     }
     
     func logout() async throws {
