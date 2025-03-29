@@ -63,7 +63,7 @@ class SolanaViewModel: ObservableObject {
             
             // Wait for transaction confirmation
             print("Waiting for transaction confirmation...")
-            try await apiClient.waitForConfirmation(signature: signature)
+            try await apiClient.waitForConfirmation(signature: signature, ignoreStatus: false)
             print("Airdrop confirmed!")
             
             // Refresh balance
@@ -98,22 +98,27 @@ class SolanaViewModel: ObservableObject {
             let destination = account.publicKey // Sending to ourselves for testing
             
             print("Creating test transaction...")
-            let transaction = try await SystemProgram.transferInstruction(
+            let transferInstruction = SystemProgram.transferInstruction(
                 from: account.publicKey,
                 to: destination,
                 lamports: amount
             )
             
-            print("Sending transaction...")
-            let signature = try await apiClient.sendTransaction(
-                instructions: [transaction],
+            let recentBlockhash = try await apiClient.getRecentBlockhash()
+            
+            let transaction = Transaction(
+                instructions: [transferInstruction],
+                recentBlockhash: recentBlockhash,
                 signers: [account]
             )
+            
+            print("Sending transaction...")
+            let signature = try await apiClient.sendTransaction(transaction)
             print("Transaction sent successfully. Signature: \(signature)")
             
             // Wait for confirmation
             print("Waiting for transaction confirmation...")
-            try await apiClient.waitForConfirmation(signature: signature)
+            try await apiClient.waitForConfirmation(signature: signature, ignoreStatus: false)
             print("Transaction confirmed!")
             
             // Refresh balance
