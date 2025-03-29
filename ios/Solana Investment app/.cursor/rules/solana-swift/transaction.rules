@@ -1,0 +1,20 @@
+// Rules for creating and signing transactions in solana-swift
+// Last updated: March 29, 2025
+
+// Rule: Prepare transactions before sending
+// Why: Ensures all required data (e.g., blockhash) is included
+When sending transactions:
+  Require: "Use `BlockchainClient.prepareSendingSPLTokens` or similar to prepare the transaction."
+  Example: "let preparedTx = try await blockchainClient.prepareSendingSPLTokens(account: account, mintAddress: \"...\", ...)"
+
+// Rule: Sign transactions with valid accounts
+// Why: Unsigned or incorrectly signed transactions will fail
+When signing transactions:
+  Require: "Ensure the account used for signing matches the transaction's fee payer or signer."
+  Example: "let result = try await blockchainClient.sendTransaction(preparedTransaction: preparedTx)"
+
+// Rule: Handle multi-signature scenarios
+// Why: Some transactions require additional signatures
+When adding signatures:
+  Suggest: "Use `partialSign` for multi-signature transactions and validate all signers."
+  Example: "try transaction.partialSign(signers: [account1, account2])" 

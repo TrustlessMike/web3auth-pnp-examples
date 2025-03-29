@@ -1,0 +1,19 @@
+// General rules for working with solana-swift package
+// Last updated: March 29, 2025
+
+// Rule: Always specify the Solana network explicitly
+// Why: Avoids ambiguity between mainnet, devnet, and testnet
+When initializing APIEndPoint:
+  Suggest: "Use `.mainnetBeta`, `.devnet`, or `.testnet` explicitly instead of relying on defaults."
+  Example: "let endpoint = APIEndPoint(address: \"https://api.mainnet-beta.solana.com\", network: .mainnetBeta)"
+
+// Rule: Use Swift concurrency (async/await) over closures
+// Why: Solana-swift supports modern Swift concurrency since v2.0.0
+When calling methods like getBlockHeight or getBalance:
+  Suggest: "Prefer `try await` over closure-based calls for better readability and error handling."
+  Example: "let balance = try await apiClient.getBalance(account: account)"
+
+// Rule: Check for latest version
+// Why: Ensures compatibility with Solana network updates
+When importing SolanaSwift:
+  Suggest: "Verify you're using the latest version (e.g., 5.0.0 or higher) from https://github.com/p2p-org/solana-swift." 

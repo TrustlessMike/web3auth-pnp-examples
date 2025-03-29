@@ -1,0 +1,20 @@
+// Rules for managing SolanaAccountStorage in solana-swift
+// Last updated: March 29, 2025
+
+// Rule: Implement SolanaAccountStorage protocol
+// Why: Required for account management in solana-swift
+When defining a custom account storage:
+  Require: "Conform to `SolanaAccountStorage` with `save(_:)` and `account` properties."
+  Example: "struct KeychainAccountStorage: SolanaAccountStorage { func save(_ account: Account) throws { ... } var account: Account? { ... } }"
+
+// Rule: Use secure storage in production
+// Why: Protects private keys from unauthorized access
+When implementing account storage:
+  Suggest: "Use `KeychainAccountStorage` for production instead of `InMemoryAccountStorage`."
+  Example: "let storage = KeychainAccountStorage(tokenKey: \"myKey\")"
+
+// Rule: Validate account retrieval
+// Why: Prevents runtime errors from nil accounts
+When accessing account:
+  Suggest: "Guard against nil account values before using them."
+  Example: "guard let account = try? storage.account else { throw UnauthorizedError }" 

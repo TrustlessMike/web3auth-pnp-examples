@@ -1,0 +1,20 @@
+// Rules for using JSONRPCAPIClient in solana-swift
+// Last updated: March 29, 2025
+
+// Rule: Validate endpoint configuration
+// Why: Incorrect endpoints lead to failed API calls
+When creating JSONRPCAPIClient:
+  Require: "Ensure the endpoint URL is valid and matches the network (e.g., 'https://api.mainnet-beta.solana.com' for mainnetBeta)."
+  Example: "let apiClient = JSONRPCAPIClient(endpoint: endpoint)"
+
+// Rule: Handle commitment parameter
+// Why: Commitment level affects data freshness and reliability
+When calling methods like getBalance or getAccountInfo:
+  Suggest: "Specify `commitment` (e.g., 'recent', 'confirmed') to control transaction finality."
+  Example: "let balance = try await apiClient.getBalance(account: account, commitment: \"confirmed\")"
+
+// Rule: Error handling for network requests
+// Why: Blockchain APIs can fail due to network issues or rate limits
+When using apiClient methods:
+  Require: "Wrap calls in a try-catch block to handle BlockchainClientError or APIClientError."
+  Example: "do { let result = try await apiClient.getBlockHeight() } catch { print(\"Error: \(error)\") }" 

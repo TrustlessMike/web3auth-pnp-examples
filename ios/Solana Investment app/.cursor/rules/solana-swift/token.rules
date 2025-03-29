@@ -1,0 +1,20 @@
+// Rules for working with SPL tokens in solana-swift
+// Last updated: March 29, 2025
+
+// Rule: Specify token decimals correctly
+// Why: Incorrect decimals lead to wrong amounts
+When sending SPL tokens:
+  Require: "Pass the correct `decimals` value for the token mint (e.g., 6 for USDC)."
+  Example: "try await blockchainClient.prepareSendingSPLTokens(..., decimals: 6, ...)"
+
+// Rule: Use TokensRepository for token lists
+// Why: Simplifies token metadata retrieval
+When fetching token info:
+  Suggest: "Use `TokensRepository` to get token lists instead of manual API calls."
+  Example: "let tokens = try await tokenRepository.getTokensList()"
+
+// Rule: Cache token data when possible
+// Why: Reduces redundant network requests
+When using TokensRepository:
+  Suggest: "Enable caching with `useCache: true` unless real-time data is required."
+  Example: "let list = try await tokenRepository.getTokensList(useCache: true)" 
