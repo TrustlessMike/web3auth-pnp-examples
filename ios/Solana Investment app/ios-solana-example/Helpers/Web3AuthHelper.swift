@@ -7,7 +7,7 @@ class Web3AuthHelper {
     func initialize() async throws {
         print("Starting Web3Auth initialization...")
         do {
-            let clientId = "BMQB_PFrWTuwRfJm_5Vq-MgsTVc_GaGlSajQlnkCcdT689sTflQk1xYhpTr7inuGboDjHHrchHD546x6HVqxXpI"
+            let clientId = "BNOIH52LcDndVctBMe1ChZuBoITJNnRDgIkZ2rKn8SYpQ1XuQjLi_FREsxBxhjUuasC1e-CM7ydyWye8uljpCHI"
             
             web3Auth = try await Web3Auth(
                 W3AInitParams(
