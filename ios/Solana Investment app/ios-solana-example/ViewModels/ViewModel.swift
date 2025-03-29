@@ -4,8 +4,8 @@ import Web3Auth
 class ViewModel: ObservableObject {
     @Published var isLoggedIn = false
     @Published var userInfo: Web3AuthUserInfo?
-    @Published var error: String?
     private let web3AuthHelper = Web3AuthHelper()
+    @Published var solanaViewModel = SolanaViewModel()
     
     init() {
         print("Initializing ViewModel...")
@@ -13,11 +13,16 @@ class ViewModel: ObservableObject {
             do {
                 try await web3AuthHelper.initialize()
                 print("Web3AuthHelper initialized in ViewModel")
+                // Check if user is already logged in
+                if web3AuthHelper.isUserAuthenticated() {
+                    userInfo = try web3AuthHelper.getUserDetails()
+                    let privateKey = try web3AuthHelper.getSolanaPrivateKey()
+                    try solanaViewModel.setupAccount(privateKey: privateKey)
+                    await solanaViewModel.fetchBalance()
+                    isLoggedIn = true
+                }
             } catch {
                 print("Error initializing Web3AuthHelper in ViewModel: \(error)")
-                DispatchQueue.main.async {
-                    self.error = "Failed to initialize Web3Auth: \(error.localizedDescription)"
-                }
             }
         }
     }
@@ -28,16 +33,13 @@ class ViewModel: ObservableObject {
             do {
                 try await web3AuthHelper.login()
                 userInfo = try web3AuthHelper.getUserDetails()
-                DispatchQueue.main.async {
-                    self.isLoggedIn = true
-                    self.error = nil
-                    print("ViewModel: Login successful")
-                }
+                let privateKey = try web3AuthHelper.getSolanaPrivateKey()
+                try solanaViewModel.setupAccount(privateKey: privateKey)
+                await solanaViewModel.fetchBalance()
+                isLoggedIn = true
+                print("ViewModel: Login successful")
             } catch {
                 print("ViewModel: Login failed - \(error)")
-                DispatchQueue.main.async {
-                    self.error = "Login failed: \(error.localizedDescription)"
-                }
             }
         }
     }
@@ -47,17 +49,12 @@ class ViewModel: ObservableObject {
         Task {
             do {
                 try await web3AuthHelper.logOut()
-                DispatchQueue.main.async {
-                    self.userInfo = nil
-                    self.isLoggedIn = false
-                    self.error = nil
-                    print("ViewModel: Logout successful")
-                }
+                userInfo = nil
+                isLoggedIn = false
+                solanaViewModel = SolanaViewModel() // Reset Solana view model
+                print("ViewModel: Logout successful")
             } catch {
                 print("ViewModel: Logout failed - \(error)")
-                DispatchQueue.main.async {
-                    self.error = "Logout failed: \(error.localizedDescription)"
-                }
             }
         }
     }
