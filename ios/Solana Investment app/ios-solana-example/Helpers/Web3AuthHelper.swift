@@ -5,6 +5,7 @@ class Web3AuthHelper {
     var web3Auth: Web3Auth!
     
     func initialize() async throws {
+        print("Starting Web3Auth initialization...")
         do {
             web3Auth = try await Web3Auth(
                 W3AInitParams(
@@ -13,32 +14,63 @@ class Web3AuthHelper {
                     redirectUrl: "com.w3a.ios-solana-example://auth"
                 )
             )
+            print("Web3Auth initialized successfully")
         } catch let error {
-            print(error.localizedDescription)
+            print("Error initializing Web3Auth: \(error.localizedDescription)")
+            print("Detailed error: \(error)")
+            throw error
         }
     }
     
     func isUserAuthenticated() -> Bool {
-        return web3Auth.state != nil
+        let isAuthenticated = web3Auth.state != nil
+        print("User authentication status: \(isAuthenticated)")
+        return isAuthenticated
     }
     
     func logOut() async throws {
-        return try await web3Auth.logout()
+        print("Starting logout process...")
+        do {
+            try await web3Auth.logout()
+            print("Logout successful")
+        } catch {
+            print("Error during logout: \(error.localizedDescription)")
+            throw error
+        }
     }
     
     func getUserDetails() throws -> Web3AuthUserInfo {
-        return try web3Auth.getUserInfo()
+        print("Fetching user details...")
+        do {
+            let userInfo = try web3Auth.getUserInfo()
+            print("User details fetched successfully")
+            print("User email: \(userInfo.email ?? "Not available")")
+            return userInfo
+        } catch {
+            print("Error fetching user details: \(error.localizedDescription)")
+            throw error
+        }
     }
     
     func getSolanaPrivateKey() throws -> String {
-        return web3Auth.getEd25519PrivKey()
+        print("Fetching Solana private key...")
+        let privateKey = web3Auth.getEd25519PrivKey()
+        print("Solana private key fetched successfully")
+        return privateKey
     }
     
     func login() async throws {
-        let _ = try await web3Auth.login(W3ALoginParams(
-            loginProvider: Web3AuthProvider.GOOGLE)
-        )
-        return
+        print("Starting login process...")
+        do {
+            let _ = try await web3Auth.login(W3ALoginParams(
+                loginProvider: Web3AuthProvider.GOOGLE)
+            )
+            print("Login successful")
+        } catch {
+            print("Error during login: \(error.localizedDescription)")
+            print("Detailed error: \(error)")
+            throw error
+        }
     }
 }
 
