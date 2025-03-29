@@ -2,14 +2,16 @@ import Foundation
 import Web3Auth
 
 class Web3AuthHelper {
-    var web3Auth: Web3Auth!
+    var web3Auth: Web3Auth?
     
     func initialize() async throws {
         print("Starting Web3Auth initialization...")
         do {
+            let clientId = "BMQB_PFrWTuwRfJm_5Vq-MgsTVc_GaGlSajQlnkCcdT689sTflQk1xYhpTr7inuGboDjHHrchHD546x6HVqxXpI"
+            
             web3Auth = try await Web3Auth(
                 W3AInitParams(
-                    clientId: "YOUR_CLIENT_ID", // Replace with your Web3Auth client ID
+                    clientId: clientId,
                     network: Network.sapphire_mainnet,
                     redirectUrl: "com.w3a.ios-solana-example://auth"
                 )
@@ -23,6 +25,10 @@ class Web3AuthHelper {
     }
     
     func isUserAuthenticated() -> Bool {
+        guard let web3Auth = web3Auth else {
+            print("Web3Auth not initialized")
+            return false
+        }
         let isAuthenticated = web3Auth.state != nil
         print("User authentication status: \(isAuthenticated)")
         return isAuthenticated
@@ -30,6 +36,10 @@ class Web3AuthHelper {
     
     func logOut() async throws {
         print("Starting logout process...")
+        guard let web3Auth = web3Auth else {
+            print("Web3Auth not initialized")
+            throw Web3AuthError.notInitialized
+        }
         do {
             try await web3Auth.logout()
             print("Logout successful")
@@ -41,6 +51,10 @@ class Web3AuthHelper {
     
     func getUserDetails() throws -> Web3AuthUserInfo {
         print("Fetching user details...")
+        guard let web3Auth = web3Auth else {
+            print("Web3Auth not initialized")
+            throw Web3AuthError.notInitialized
+        }
         do {
             let userInfo = try web3Auth.getUserInfo()
             print("User details fetched successfully")
@@ -54,6 +68,10 @@ class Web3AuthHelper {
     
     func getSolanaPrivateKey() throws -> String {
         print("Fetching Solana private key...")
+        guard let web3Auth = web3Auth else {
+            print("Web3Auth not initialized")
+            throw Web3AuthError.notInitialized
+        }
         let privateKey = web3Auth.getEd25519PrivKey()
         print("Solana private key fetched successfully")
         return privateKey
@@ -61,6 +79,10 @@ class Web3AuthHelper {
     
     func login() async throws {
         print("Starting login process...")
+        guard let web3Auth = web3Auth else {
+            print("Web3Auth not initialized")
+            throw Web3AuthError.notInitialized
+        }
         do {
             let _ = try await web3Auth.login(W3ALoginParams(
                 loginProvider: Web3AuthProvider.GOOGLE)

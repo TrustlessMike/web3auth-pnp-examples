@@ -4,6 +4,7 @@ import Web3Auth
 class ViewModel: ObservableObject {
     @Published var isLoggedIn = false
     @Published var userInfo: Web3AuthUserInfo?
+    @Published var error: String?
     private let web3AuthHelper = Web3AuthHelper()
     
     init() {
@@ -14,6 +15,9 @@ class ViewModel: ObservableObject {
                 print("Web3AuthHelper initialized in ViewModel")
             } catch {
                 print("Error initializing Web3AuthHelper in ViewModel: \(error)")
+                DispatchQueue.main.async {
+                    self.error = "Failed to initialize Web3Auth: \(error.localizedDescription)"
+                }
             }
         }
     }
@@ -24,10 +28,16 @@ class ViewModel: ObservableObject {
             do {
                 try await web3AuthHelper.login()
                 userInfo = try web3AuthHelper.getUserDetails()
-                isLoggedIn = true
-                print("ViewModel: Login successful")
+                DispatchQueue.main.async {
+                    self.isLoggedIn = true
+                    self.error = nil
+                    print("ViewModel: Login successful")
+                }
             } catch {
                 print("ViewModel: Login failed - \(error)")
+                DispatchQueue.main.async {
+                    self.error = "Login failed: \(error.localizedDescription)"
+                }
             }
         }
     }
@@ -37,11 +47,17 @@ class ViewModel: ObservableObject {
         Task {
             do {
                 try await web3AuthHelper.logOut()
-                userInfo = nil
-                isLoggedIn = false
-                print("ViewModel: Logout successful")
+                DispatchQueue.main.async {
+                    self.userInfo = nil
+                    self.isLoggedIn = false
+                    self.error = nil
+                    print("ViewModel: Logout successful")
+                }
             } catch {
                 print("ViewModel: Logout failed - \(error)")
+                DispatchQueue.main.async {
+                    self.error = "Logout failed: \(error.localizedDescription)"
+                }
             }
         }
     }
