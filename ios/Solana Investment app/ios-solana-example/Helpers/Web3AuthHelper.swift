@@ -74,7 +74,8 @@ class Web3AuthHelper {
         }
         let privateKey = web3Auth.getEd25519PrivKey()
         print("Solana private key fetched successfully")
-        return privateKey
+        // If the private key doesn't start with 0x, add it
+        return privateKey.hasPrefix("0x") ? privateKey : "0x" + privateKey
     }
     
     func login() async throws {
