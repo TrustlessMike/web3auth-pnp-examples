@@ -106,13 +106,15 @@ class SolanaViewModel: ObservableObject {
             
             let recentBlockhash = try await apiClient.getRecentBlockhash()
             
-            var transaction = Transaction()
-            transaction.add(instruction: transferInstruction)
-            transaction.recentBlockhash = recentBlockhash
-            try transaction.sign(signers: [account])
+            let transaction = Transaction(
+                instructions: [transferInstruction],
+                recentBlockhash: recentBlockhash,
+                feePayer: account.publicKey
+            ).sign(signers: [account])
             
             print("Sending transaction...")
-            let signature = try await apiClient.sendTransaction(transaction: transaction)
+            let serializedTransaction = try transaction.serialize()
+            let signature = try await apiClient.sendTransaction(serializedTransaction)
             print("Transaction sent successfully. Signature: \(signature)")
             
             // Wait for confirmation
