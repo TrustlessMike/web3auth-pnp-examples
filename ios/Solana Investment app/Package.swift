@@ -12,7 +12,7 @@ let package = Package(
             targets: ["ios-solana-example"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/Web3Auth/Web3Auth-iOS-SDK.git", from: "1.0.0"),
+        .package(url: "https://github.com/Web3Auth/Web3Auth-iOS-SDK.git", exact: "1.0.0"),
         .package(url: "https://github.com/p2p-org/solana-swift.git", from: "1.0.0")
     ],
     targets: [
