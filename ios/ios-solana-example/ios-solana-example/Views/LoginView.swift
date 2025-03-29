@@ -1,6 +1,6 @@
 //
 //  LoginView.swift
-//  ios-solana-example
+//  Solana Investment app
 //
 //  Created by Ayush B on 26/02/24.
 //
@@ -17,8 +17,15 @@ struct LoginView: View {
             Button(action: {
                 viewModel.login()
             }, label: {
-                Text("Sign in with Google")
-            }).buttonStyle(.bordered)
+                if viewModel.isLoading {
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                } else {
+                    Text("Sign in with Google")
+                }
+            })
+            .buttonStyle(.bordered)
+            .disabled(viewModel.isLoading)
             Spacer()
         }.padding(.all, 8).alert(isPresented: Binding<Bool>(
             get: { self.viewModel.isErrorAvailable},

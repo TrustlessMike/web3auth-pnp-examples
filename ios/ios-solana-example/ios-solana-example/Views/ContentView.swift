@@ -1,8 +1,8 @@
 //
 //  ContentView.swift
-//  ios-solana-example
+//  Solana Investment app
 //
-//  Created by Ayush B on 24/02/24.
+//  Created by Ayush B on 26/02/24.
 //
 
 import SwiftUI
@@ -21,7 +21,7 @@ struct ContentView: View {
                 LoginView(viewModel: viewModel)
             }
         }.onAppear{
-            viewModel.initilize()
+            viewModel.initialize()
         }
     }
 }

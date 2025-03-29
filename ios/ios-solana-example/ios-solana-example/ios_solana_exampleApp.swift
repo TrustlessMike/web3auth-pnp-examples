@@ -1,17 +1,18 @@
 //
-//  ios_solana_exampleApp.swift
-//  ios-solana-example
+//  SolanaInvestmentApp.swift
+//  Solana Investment app
 //
-//  Created by Ayush B on 24/02/24.
+//  Created by Ayush B on 26/02/24.
 //
 
 import SwiftUI
 
 @main
-struct ios_solana_exampleApp: App {
+struct SolanaInvestmentApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView(viewModel: ViewModel())
+            ContentView()
         }
     }
 }
+

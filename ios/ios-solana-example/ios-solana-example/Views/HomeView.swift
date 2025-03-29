@@ -1,6 +1,6 @@
 //
 //  HomeView.swift
-//  ios-solana-example
+//  Solana Investment app
 //
 //  Created by Ayush B on 26/02/24.
 //
