@@ -1,6 +1,5 @@
 import Foundation
 import Web3Auth
-import Web3AuthCore
 
 class Web3AuthHelper {
     static let shared = Web3AuthHelper()
