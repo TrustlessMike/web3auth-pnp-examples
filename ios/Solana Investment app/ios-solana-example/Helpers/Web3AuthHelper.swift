@@ -12,7 +12,7 @@ class Web3AuthHelper {
             web3Auth = try await Web3Auth(
                 W3AInitParams(
                     clientId: clientId,
-                    network: Network.sapphire_mainnet,
+                    network: Network.sapphire_devnet,
                     redirectUrl: "com.w3a.ios-solana-example://auth"
                 )
             )
