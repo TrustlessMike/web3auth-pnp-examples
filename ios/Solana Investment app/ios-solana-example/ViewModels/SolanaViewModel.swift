@@ -19,7 +19,7 @@ class SolanaViewModel: ObservableObject {
     
     func fetchBalance(for account: Account) async {
         do {
-            let balance = try await apiClient?.getBalance(account: account)
+            let balance = try await apiClient?.getBalance(account: account.publicKey.base58EncodedString)
             DispatchQueue.main.async {
                 self.balance = Double(balance ?? 0) / 1_000_000_000 // Convert lamports to SOL
             }
