@@ -1,32 +1,32 @@
-# Web3Auth iOS Solana Example
+# Solana Investment App
 
-[![Web3Auth](https://img.shields.io/badge/Web3Auth-SDK-blue)](https://web3auth.io/docs/sdk/pnp/ios)
-[![Web3Auth](https://img.shields.io/badge/Web3Auth-Community-cyan)](https://community.web3auth.io)
+A SwiftUI-based iOS application for managing Solana investments. This app demonstrates the integration of Web3Auth for authentication and Solana blockchain interactions.
 
-[Join our Community Portal](https://community.web3auth.io/) to get support and stay up to date with the latest news and updates.
+## Features
 
-This example demonstrates how to use Web3Auth to get create a Solana account, connect and interact with Solana chain in iOS.
+- Web3Auth integration for secure authentication
+- Solana wallet management
+- Investment portfolio tracking
+- Modern SwiftUI interface
 
-## How to Use
+## Requirements
 
-### Download Manually
+- iOS 15.0+
+- Xcode 13.0+
+- Swift 5.5+
 
-```bash
-npx degit Web3Auth/web3auth-pnp-examples/ios/ios-solana-example w3a-ios-solana
-```
+## Installation
 
-Install & Run:
+1. Clone the repository
+2. Open the project in Xcode
+3. Build and run the project
 
-```bash
-cd w3a-ios-solana
-# Run project in Xcode
-```
+## Dependencies
 
-## Important Links
+- Web3Auth
+- Solana Web3.js
+- SwiftUI
 
-- [Website](https://web3auth.io)
-- [Docs](https://web3auth.io/docs)
-- [Guides](https://web3auth.io/docs/guides)
-- [SDK / API References](https://web3auth.io/docs/sdk)
-- [Pricing](https://web3auth.io/pricing.html)
-- [Community Portal](https://community.web3auth.io)
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
